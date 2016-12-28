@@ -14,10 +14,10 @@ class Stage {
 	startSpawning() {
 		let _this = this;
 		this.spawningIntervalId = setInterval(function() {
-			if(GridRunnerUtil.random(0, 100) < 75) {
-				_this.spawnRunner();
+			if(GridRunnerUtil.random(0, 100) < _this.runnerSettings.spawnChance && _this.runners.length < _this.runnerSettings.maxRunners) {
+				_this.runners.push(Runner.newRandomRunner(_this.context.canvas.width, _this.context.canvas.height, _this.runnerSettings.size));
 			}
-		}, 250);
+		}, this.runnerSettings.spawnDelay);
 	}
 
 	stopSpawning() {
@@ -99,12 +99,6 @@ class Stage {
 	stopDrawing() {
 		if(this.drawingIntervalId !== null) {
 			clearInterval(this.drawingIntervalId);
-		}
-	}
-
-	spawnRunner() {
-		if(this.runners.length < this.runnerSettings.maxRunners) {
-			this.runners.push(Runner.newRandomRunner(this.context.canvas.width, this.context.canvas.height, this.runnerSettings.size));
 		}
 	}
 }
