@@ -26,45 +26,45 @@ class RunnerBehaviour {
 
 	static get BEHAVIOUR() {
 		return {
-			LEFT: new RunnerBehaviour(RunnerBehaviour.DIRECTION.LEFT, function(x, y, speed, refreshRate) {
-					return new RunnerPosition(x - speed / refreshRate, y);
-				}, function(width, height, size) {
-					let columns = Math.floor(width / size);
-					let rows = Math.floor(height / size);
+			LEFT: new RunnerBehaviour(RunnerBehaviour.DIRECTION.LEFT, function(runner, settings, refreshRate) {
+					return new RunnerPosition(runner.position.x - settings.speed / refreshRate, runner.position.y);
+				}, function(canvas, settings) {
+					let columns = Math.floor(canvas.width / settings.size);
+					let rows = Math.floor(canvas.height / settings.size);
 
-					return new RunnerPosition(width + 100, size * GridRunnerUtil.random(0, rows));
-				}, function(width, height, x, y, size, trailLength) {
-					return x < 0 - size - trailLength;
+					return new RunnerPosition(canvas.width + 100, settings.size * GridRunnerUtil.random(0, rows));
+				}, function(canvas, runner, settings) {
+					return runner.position.x < 0 - settings.size - settings.trailLength;
 				}),
-			UP: new RunnerBehaviour(RunnerBehaviour.DIRECTION.UP, function(x, y, speed, refreshRate) {
-					return new RunnerPosition(x, y - speed / refreshRate);
-				}, function(width, height, size) {
-					let columns = Math.floor(width / size);
-					let rows = Math.floor(height / size);
+			UP: new RunnerBehaviour(RunnerBehaviour.DIRECTION.UP, function(runner, settings, refreshRate) {
+					return new RunnerPosition(runner.position.x, runner.position.y - settings.speed / refreshRate);
+				}, function(canvas, settings) {
+					let columns = Math.floor(canvas.width / settings.size);
+					let rows = Math.floor(canvas.height / settings.size);
 
-					return new RunnerPosition(size * GridRunnerUtil.random(0, columns), height + 100);
-				}, function(width, height, x, y, size, trailLength) {
-					return y < 0 - size - trailLength;
+					return new RunnerPosition(settings.size * GridRunnerUtil.random(0, columns), canvas.height + 100);
+				}, function(canvas, runner, settings) {
+					return runner.position.y < 0 - settings.size - settings.trailLength;
 				}),
-			RIGHT: new RunnerBehaviour(RunnerBehaviour.DIRECTION.RIGHT, function(x, y, speed, refreshRate) {
-					return new RunnerPosition(x + speed / refreshRate, y);
-				}, function(width, height, size) {
-					let columns = Math.floor(width / size);
-					let rows = Math.floor(height / size);
+			RIGHT: new RunnerBehaviour(RunnerBehaviour.DIRECTION.RIGHT, function(runner, settings, refreshRate) {
+					return new RunnerPosition(runner.position.x + settings.speed / refreshRate, runner.position.y);
+				}, function(canvas, settings) {
+					let columns = Math.floor(canvas.width / settings.size);
+					let rows = Math.floor(canvas.height / settings.size);
 
-					return new RunnerPosition(-100, size * GridRunnerUtil.random(0, rows));
-				}, function(width, height, x, y, size, trailLength) {
-					return x > width + size + trailLength;
+					return new RunnerPosition(-100, settings.size * GridRunnerUtil.random(0, rows));
+				}, function(canvas, runner, settings) {
+					return runner.x > canvas.width + settings.size + settings.trailLength;
 				}),
-			DOWN: new RunnerBehaviour(RunnerBehaviour.DIRECTION.DOWN, function(x, y, speed, refreshRate) {
-					return new RunnerPosition(x, y + speed / refreshRate);
-				}, function(width, height, size) {
-					let columns = Math.floor(width / size);
-					let rows = Math.floor(height / size);
+			DOWN: new RunnerBehaviour(RunnerBehaviour.DIRECTION.DOWN, function(runner, settings, refreshRate) {
+					return new RunnerPosition(runner.position.x, runner.position.y + settings.speed / refreshRate);
+				}, function(canvas, settings) {
+					let columns = Math.floor(canvas.width / settings.size);
+					let rows = Math.floor(canvas.height / settings.size);
 
-					return new RunnerPosition(size * GridRunnerUtil.random(0, columns), -100);
-				}, function(width, height, x, y, size, trailLength) {
-					return y > height + size + trailLength;
+					return new RunnerPosition(settings.size * GridRunnerUtil.random(0, columns), -100);
+				}, function(canvas, runner, settings) {
+					return runner.position.y > canvas.height + settings.size + settings.trailLength;
 				})
 		};
 	}

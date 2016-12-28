@@ -5,18 +5,18 @@ class Runner {
 		this.position = position;
 	}
 
-	static newRandomRunner(width, height, size) {
+	static newRandomRunner(canvas, settings) {
 		let colour = GridRunnerUtil.randomElement(RunnerColour.COLOURS);
 		let behaviour = GridRunnerUtil.randomElement(RunnerBehaviour.BEHAVIOURS);
 
-		return new Runner(colour, behaviour, behaviour.getStartingPosition(width, height, size));
+		return new Runner(colour, behaviour, behaviour.getStartingPosition(canvas, settings));
 	}
 
-	incrementPosition(speed, refreshRate) {
-		this.position = this.behaviour.incrementPosition(this.position.x, this.position.y, speed, refreshRate);
+	incrementPosition(settings, refreshRate) {
+		this.position = this.behaviour.incrementPosition(this, settings, refreshRate);
 	}
 
-	isFinished(width, height, speed, trailLength) {
-		return this.behaviour.isFinished(width, height, this.position.x, this.position.y, speed, trailLength);
+	isFinished(canvas, settings) {
+		return this.behaviour.isFinished(canvas, this, settings);
 	}
 }
