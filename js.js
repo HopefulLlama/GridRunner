@@ -8,7 +8,7 @@ window.onload = function() {
 	stage.setBgColor(0, 0, 0);
 	stage.setContextSize();
 
-	canvas.onresize = function() {
+	window.onresize = function() {
 		stage.setContextSize();
 	};
 
