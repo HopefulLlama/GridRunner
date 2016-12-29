@@ -1,6 +1,5 @@
 class RunnerBehaviour {
-	constructor(direction, incrementPosition, getStartingPosition, isFinished, draw, drawTrail) {
-		this.direction = direction;
+	constructor(incrementPosition, getStartingPosition, isFinished, draw, drawTrail) {
 		this.incrementPosition = incrementPosition;
 		this.getStartingPosition = getStartingPosition;
 		this.isFinished = isFinished;
@@ -9,27 +8,9 @@ class RunnerBehaviour {
 		this.drawTrail = drawTrail;
 	}
 
-	static get DIRECTION() {
-		return {
-			LEFT: 0,
-			UP: 1,
-			RIGHT: 2,
-			DOWN: 3
-		};
-	}
-
-	static get DIRECTIONS() {
-		return [
-			RunnerBehaviour.DIRECTION.LEFT,
-			RunnerBehaviour.DIRECTION.UP,
-			RunnerBehaviour.DIRECTION.RIGHT,
-			RunnerBehaviour.DIRECTION.DOWN
-		];
-	}
-
 	static get BEHAVIOUR() {
 		return {
-			LEFT: new RunnerBehaviour(RunnerBehaviour.DIRECTION.LEFT, function(runner, settings, refreshRate) {
+			LEFT: new RunnerBehaviour(function(runner, settings, refreshRate) {
 				return new RunnerPosition(runner.position.x - settings.speed / refreshRate, runner.position.y);
 			}, function(canvas, settings) {
 				let columns = Math.floor(canvas.width / settings.size);
@@ -51,7 +32,7 @@ class RunnerBehaviour {
 					context.fillRect(runner.position.x + settings.size + (d * length), runner.position.y - settings.size, length, settings.size * 2);
 				}
 			}),
-			UP: new RunnerBehaviour(RunnerBehaviour.DIRECTION.UP, function(runner, settings, refreshRate) {
+			UP: new RunnerBehaviour(function(runner, settings, refreshRate) {
 				return new RunnerPosition(runner.position.x, runner.position.y - settings.speed / refreshRate);
 			}, function(canvas, settings) {
 				let columns = Math.floor(canvas.width / settings.size);
@@ -73,7 +54,7 @@ class RunnerBehaviour {
 					context.fillRect(runner.position.x - settings.size, runner.position.y + settings.size + (d * length), settings.size * 2, length);
 				}
 			}),
-			RIGHT: new RunnerBehaviour(RunnerBehaviour.DIRECTION.RIGHT, function(runner, settings, refreshRate) {
+			RIGHT: new RunnerBehaviour(function(runner, settings, refreshRate) {
 				return new RunnerPosition(runner.position.x + settings.speed / refreshRate, runner.position.y);
 			}, function(canvas, settings) {
 				let columns = Math.floor(canvas.width / settings.size);
@@ -95,7 +76,7 @@ class RunnerBehaviour {
 					context.fillRect(runner.position.x - settings.size - ((d + 1) * length), runner.position.y - settings.size, length, settings.size * 2);
 				}
 			}),
-			DOWN: new RunnerBehaviour(RunnerBehaviour.DIRECTION.DOWN, function(runner, settings, refreshRate) {
+			DOWN: new RunnerBehaviour(function(runner, settings, refreshRate) {
 				return new RunnerPosition(runner.position.x, runner.position.y + settings.speed / refreshRate);
 			}, function(canvas, settings) {
 				let columns = Math.floor(canvas.width / settings.size);
