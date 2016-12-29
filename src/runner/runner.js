@@ -19,4 +19,12 @@ class Runner {
 	isFinished(canvas, settings) {
 		return this.behaviour.isFinished(canvas, this, settings);
 	}
+
+	draw(context, settings) {
+		this.behaviour.draw(context, this, settings);
+	}
+
+	drawTrail(context, settings) {
+		this.behaviour.drawTrail(context, this, settings);
+	}
 }

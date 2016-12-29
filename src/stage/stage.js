@@ -55,45 +55,15 @@ class Stage {
 
 			for(let r = _this.runners.length - 1; r > 0; r--) {
 				let runner = _this.runners[r];
-				_this.drawRunnerTrail(runner);
+				runner.drawTrail(_this.context, _this.runnerSettings);
 			}
 			
 			for(let r = _this.runners.length - 1; r > 0; r--) {
 				let runner = _this.runners[r];
-				_this.drawRunner(runner);
+				runner.draw(_this.context, _this.runnerSettings);
 			}
 
 		}, 1e3 / this.refreshRate);
-	}
-
-	drawRunner(runner) {
-		this.context.fillStyle = runner.colour.getRgb();
-		this.context.strokeStyle = runner.colour.getRgb();
-		this.context.fillRect(runner.position.x - this.runnerSettings.size, runner.position.y - this.runnerSettings.size, this.runnerSettings.size * 2, this.runnerSettings.size * 2);
-	}
-
-	drawRunnerTrail(runner) {
-		let segments = this.runnerSettings.initialTrailOpacity * 100;
-		let length = this.runnerSettings.trailLength / segments;
-		for(let d = 0; d < segments; d++) {
-			this.context.fillStyle = runner.colour.getRgba((segments - d) / 100);
-			this.context.strokeStyle = runner.colour.getRgba((segments - d) / 100);
-			
-			switch(runner.behaviour.direction) {
-				case RunnerBehaviour.DIRECTION.LEFT:
-					this.context.fillRect(runner.position.x + this.runnerSettings.size + (d * length), runner.position.y - this.runnerSettings.size, length, this.runnerSettings.size * 2);
-					break;
-				case RunnerBehaviour.DIRECTION.UP:
-					this.context.fillRect(runner.position.x - this.runnerSettings.size, runner.position.y + this.runnerSettings.size + (d * length), this.runnerSettings.size * 2, length);
-					break;
-				case RunnerBehaviour.DIRECTION.RIGHT:
-					this.context.fillRect(runner.position.x - this.runnerSettings.size - ((d + 1) * length), runner.position.y - this.runnerSettings.size, length, this.runnerSettings.size * 2);
-					break;
-				case RunnerBehaviour.DIRECTION.DOWN:
-					this.context.fillRect(runner.position.x - this.runnerSettings.size, runner.position.y - this.runnerSettings.size - ((d + 1) * length), this.runnerSettings.size * 2, length);
-					break;
-			}
-		}
 	}
 
 	stopDrawing() {
