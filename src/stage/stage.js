@@ -1,5 +1,5 @@
 class Stage {
-	constructor(canvas, refreshRate, runnerSettings, runnerColourManager, runnerBehaviourManager) {
+	constructor(canvas, refreshRate, backgroundColour, runnerSettings, runnerColourManager, runnerBehaviourManager) {
 		this.canvas = canvas;
 		this.context = canvas.getContext("2d");
 		this.refreshRate = refreshRate;
@@ -11,6 +11,14 @@ class Stage {
 
 		this.drawingIntervalId = null;
 		this.spawningIntervalId = null;
+
+		this.setContextSize();
+		this.setBgColour(backgroundColour.r, backgroundColour.g, backgroundColour.b);
+
+		let _this = this;
+		window.onresize = function() {
+			_this.setContextSize();
+		};
 	}
 
 	startSpawning() {
@@ -28,7 +36,7 @@ class Stage {
 		}
 	}
 
-	setBgColor(r, g, b) {
+	setBgColour(r, g, b) {
 		this.canvas.style.backgroundColor = "rgb(" + r + ", " + g + ", " + b +")";
 	}
 
@@ -72,5 +80,21 @@ class Stage {
 		if(this.drawingIntervalId !== null) {
 			clearInterval(this.drawingIntervalId);
 		}
+	}
+
+	start() {
+		this.startDrawing();
+		this.startSpawning();
+	}
+
+	pause() {
+		this.stopDrawing();
+		this.stopSpawning();
+	}
+
+	stop() {
+		this.pause();
+		this.clear();
+		this.runners = [];
 	}
 }
