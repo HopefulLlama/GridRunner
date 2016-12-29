@@ -107,7 +107,7 @@ class RunnerBehaviourManager {
 			if(filteredBehaviours.length !== behavioursToAdd.length) {
 				console.log("Error adding behaviours: Some behaviours have incorrect prototype.");
 			}
-			this.behaviours.concat(filteredBehaviours);
+			this.behaviours = this.behaviours.concat(filteredBehaviours);
 		} else {
 			console.log("Error adding behaviours: Not an array.");
 		}

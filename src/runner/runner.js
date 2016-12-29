@@ -5,8 +5,8 @@ class Runner {
 		this.position = position;
 	}
 
-	static newRandomRunner(canvas, settings, behaviourManager) {
-		let colour = GridRunnerUtil.randomElement(RunnerColour.COLOURS);
+	static newRandomRunner(canvas, settings, colourManager, behaviourManager) {
+		let colour = colourManager.getRandomColour();
 		let behaviour = behaviourManager.getRandomBehaviour();
 
 		return new Runner(colour, behaviour, behaviour.getStartingPosition(canvas, settings));
