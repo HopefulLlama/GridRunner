@@ -1,5 +1,5 @@
 window.onload = function() {
-	let stage = new Stage(document.getElementById("canvas"), 60, new RunnerSettings(10, 75, 250, 20, 300, 160, 0.75));
+	let stage = new Stage(document.getElementById("canvas"), 60, new RunnerSettings(10, 75, 250, 20, 300, 160, 0.75), new RunnerBehaviourManager(false, []));
 	stage.setBgColor(0, 0, 0);
 	stage.setContextSize();
 

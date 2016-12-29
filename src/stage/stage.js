@@ -1,9 +1,10 @@
 class Stage {
-	constructor(canvas, refreshRate, runnerSettings) {
+	constructor(canvas, refreshRate, runnerSettings, runnerBehaviourManager) {
 		this.canvas = canvas;
 		this.context = canvas.getContext("2d");
 		this.refreshRate = refreshRate;
 		this.runnerSettings = runnerSettings;
+		this.runnerBehaviourManager = runnerBehaviourManager;
 
 		this.runners = [];
 
@@ -15,7 +16,7 @@ class Stage {
 		let _this = this;
 		this.spawningIntervalId = setInterval(function() {
 			if(GridRunnerUtil.random(0, 100) < _this.runnerSettings.spawnChance && _this.runners.length < _this.runnerSettings.maxRunners) {
-				_this.runners.push(Runner.newRandomRunner(_this.context.canvas, _this.runnerSettings));
+				_this.runners.push(Runner.newRandomRunner(_this.context.canvas, _this.runnerSettings, _this.runnerBehaviourManager));
 			}
 		}, this.runnerSettings.spawnDelay);
 	}
