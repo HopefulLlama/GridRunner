@@ -7,5 +7,5 @@ window.onload = function() {
 		new RunnerColourManager(false, []), 
 		new RunnerBehaviourManager(false, [])
 	);
-	stage.start()
+	stage.start();
 };
