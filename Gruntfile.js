@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 		uglify: {
 			target: {
 				files: {
-					'./dist/output.min.js': ['./dist/concat/concat.es5.js']
+					'./dist/grid-runner.min.js': ['./dist/concat/concat.es5.js']
 				}
 			}
 		},
