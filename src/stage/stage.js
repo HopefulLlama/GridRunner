@@ -1,11 +1,11 @@
 class Stage {
-	constructor(canvas, refreshRate, backgroundColour, runnerSettings, runnerColourManager, runnerBehaviourManager) {
-		this.canvas = canvas;
-		this.context = canvas.getContext("2d");
-		this.refreshRate = refreshRate;
-		this.runnerSettings = runnerSettings;
-		this.runnerColourManager = runnerColourManager;
-		this.runnerBehaviourManager = runnerBehaviourManager;
+	constructor(canvasId, refreshRate, backgroundColour, runnerSettings, runnerColourManager, runnerBehaviourManager) {
+		this.canvas = document.getElementById(canvasId);
+		this.context = this.canvas.getContext("2d");
+		this.refreshRate = (refreshRate !== undefined) ? refreshRate : 60 ;
+		this.runnerSettings = (runnerSettings !== undefined) ? runnerSettings : new RunnerSettings(10, 75, 250, 20, 300, 160, 0.75);
+		this.runnerColourManager = (runnerColourManager !== undefined) ? runnerColourManager : new RunnerColourManager(false, []);
+		this.runnerBehaviourManager = (runnerBehaviourManager !== undefined) ? runnerBehaviourManager : new RunnerBehaviourManager(false, []);
 
 		this.runners = [];
 
@@ -13,6 +13,8 @@ class Stage {
 		this.spawningIntervalId = null;
 
 		this.setContextSize();
+
+		backgroundColour = (backgroundColour !== undefined) ? backgroundColour : {r: 0, g: 0, b: 0};
 		this.setBgColour(backgroundColour.r, backgroundColour.g, backgroundColour.b);
 
 		let _this = this;
@@ -22,12 +24,14 @@ class Stage {
 	}
 
 	startSpawning() {
-		let _this = this;
-		this.spawningIntervalId = setInterval(function() {
-			if(GridRunnerUtil.random(0, 100) < _this.runnerSettings.spawnChance && _this.runners.length < _this.runnerSettings.maxRunners) {
-				_this.runners.push(Runner.newRandomRunner(_this.context.canvas, _this.runnerSettings, _this.runnerColourManager, _this.runnerBehaviourManager));
-			}
-		}, this.runnerSettings.spawnDelay);
+		if(this.spawningIntervalId === null) {
+			let _this = this;
+			this.spawningIntervalId = setInterval(function() {
+				if(GridRunnerUtil.random(0, 100) < _this.runnerSettings.spawnChance && _this.runners.length < _this.runnerSettings.maxRunners) {
+					_this.runners.push(Runner.newRandomRunner(_this.context.canvas, _this.runnerSettings, _this.runnerColourManager, _this.runnerBehaviourManager));
+				}
+			}, this.runnerSettings.spawnDelay);
+		}
 	}
 
 	stopSpawning() {
@@ -50,30 +54,32 @@ class Stage {
 	}
 
 	startDrawing() {
-		let _this = this;
-		this.drawingIntervalId = setInterval(function() {
-			_this.clear();
+		if(this.spawningIntervalId === null) {
+			let _this = this;
+			this.drawingIntervalId = setInterval(function() {
+				_this.clear();
 
-			for(let r = _this.runners.length - 1; r >= 0; r--) {
-				let runner = _this.runners[r];
-				runner.incrementPosition(_this.runnerSettings, _this.refreshRate);
+				for(let r = _this.runners.length - 1; r >= 0; r--) {
+					let runner = _this.runners[r];
+					runner.incrementPosition(_this.runnerSettings, _this.refreshRate);
 
-				if(runner.isFinished(_this.context.canvas, _this.runnerSettings)) {
-					_this.runners.splice(r, 1);
+					if(runner.isFinished(_this.context.canvas, _this.runnerSettings)) {
+						_this.runners.splice(r, 1);
+					}
 				}
-			}
 
-			for(let r = _this.runners.length - 1; r > 0; r--) {
-				let runner = _this.runners[r];
-				runner.drawTrail(_this.context, _this.runnerSettings);
-			}
-			
-			for(let r = _this.runners.length - 1; r > 0; r--) {
-				let runner = _this.runners[r];
-				runner.draw(_this.context, _this.runnerSettings);
-			}
+				for(let r = _this.runners.length - 1; r > 0; r--) {
+					let runner = _this.runners[r];
+					runner.drawTrail(_this.context, _this.runnerSettings);
+				}
+				
+				for(let r = _this.runners.length - 1; r > 0; r--) {
+					let runner = _this.runners[r];
+					runner.draw(_this.context, _this.runnerSettings);
+				}
 
-		}, 1e3 / this.refreshRate);
+			}, 1e3 / this.refreshRate);
+		}
 	}
 
 	stopDrawing() {
